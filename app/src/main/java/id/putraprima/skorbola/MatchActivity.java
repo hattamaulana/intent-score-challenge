@@ -1,5 +1,6 @@
 package id.putraprima.skorbola;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,18 +19,19 @@ import java.util.List;
 public class MatchActivity extends AppCompatActivity {
 
     public static String EXTRA_DATA = "EXTRA_DATA";
+    public static String EXTRA_RESULT_CODE = "EXTRA_RESULT_CODE";
 
     private static final int REQUEST_CODE_HOME_SCORER = 101;
     private static final int REQUEST_CODE_AWAY_SCORER = 102;
 
-    private int homeScore = 0;
-    private int awayScore = 0;
     private List<String> homeScorers = new ArrayList<>();
     private List<String> awayScorers = new ArrayList<>();
 
     private Match match;
     private TextView tvHomeTeam;
     private TextView tvAwayTeam;
+    private TextView homeScorer;
+    private TextView awayScorer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class MatchActivity extends AppCompatActivity {
         ImageView awayLogo = findViewById(R.id.away_logo);
         tvHomeTeam = findViewById(R.id.score_home);
         tvAwayTeam = findViewById(R.id.score_away);
+        homeScorer = findViewById(R.id.home_scorers);
+        awayScorer = findViewById(R.id.away_scorer);
 
         // 1.Menampilkan detail match sesuai data dari main activity
         homeName.setText(match.getHomeTeam());
@@ -63,21 +67,51 @@ public class MatchActivity extends AppCompatActivity {
     }
 
     public void homeScoreHandler(View view) {
-        homeScore++;
-        tvHomeTeam.setText(String.valueOf(homeScore));
+        Intent intent = new Intent(this, ScorerActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_HOME_SCORER);
     }
 
     public void awayScoreHandler(View view) {
-        awayScore++;
-        tvAwayTeam.setText(String.valueOf(awayScore));
+        Intent intent = new Intent(this, ScorerActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_AWAY_SCORER);
     }
 
     public void CheckResult(View view) {
-        String result = (homeScore == awayScore) ? " Imbang ":
-                (homeScore > awayScore) ? match.getHomeTeam()+" Menang" : match.getAwayTeam() + " Menang";
+        String result = (homeScorers.size() == awayScorers.size()) ? " Imbang ":
+                (homeScorers.size() > awayScorers.size()) ? match.getHomeTeam()+" Menang" : match.getAwayTeam() + " Menang";
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ResultActivity.EXTRA_RESULT_MATCH, result);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED) return;
+
+        String scorer;
+        StringBuilder tempScorers = new StringBuilder();
+        switch (requestCode) {
+            case REQUEST_CODE_HOME_SCORER:
+                scorer = data.getStringExtra(ScorerActivity.EXTRA_SCORER);
+
+                homeScorers.add(scorer);
+                for (String s : homeScorers) tempScorers.append("\n" + s);
+
+                tvHomeTeam.setText(String.valueOf(homeScorers.size()));
+                homeScorer.setText(tempScorers);
+                break;
+
+            case REQUEST_CODE_AWAY_SCORER:
+                scorer = data.getStringExtra(ScorerActivity.EXTRA_SCORER);
+
+                awayScorers.add(scorer);
+                for (String s : awayScorers) tempScorers.append("\n" + s);
+
+                tvAwayTeam.setText(String.valueOf(awayScorers.size()));
+                awayScorer.setText(tempScorers);
+                break;
+        }
     }
 }

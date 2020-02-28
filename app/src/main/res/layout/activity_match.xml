@@ -21,10 +21,9 @@
         android:id="@+id/home_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/score_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_home"
+        app:layout_constraintStart_toStartOf="@+id/btn_add_home"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,12 +37,12 @@
         android:id="@+id/score_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="0"
-        android:textSize="23sp"
+        android:textSize="64sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_add_home"
+        app:layout_constraintTop_toTopOf="@+id/home_logo" />
 
     <Button
         android:id="@+id/btn_add_home"
@@ -65,7 +64,7 @@
         android:id="@+id/txt_away"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,21 +75,20 @@
         android:id="@+id/away_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_away"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_add_away"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_away"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/score_away"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="64sp"
+        app:layout_constraintBottom_toBottomOf="@+id/away_logo"
+        app:layout_constraintStart_toStartOf="@+id/btn_add_away"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_away" />
 
     <Button
@@ -118,6 +116,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/away_scorer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/score_away"
+        app:layout_constraintEnd_toStartOf="@+id/away_logo"
+        app:layout_constraintStart_toEndOf="@+id/score_away"
+        app:layout_constraintTop_toTopOf="@+id/score_away" />
+
+    <TextView
+        android:id="@+id/home_scorers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="end"
+        android:textAlignment="viewEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/score_home"
+        app:layout_constraintEnd_toStartOf="@+id/score_home"
+        app:layout_constraintStart_toEndOf="@+id/home_logo"
+        app:layout_constraintTop_toTopOf="@+id/score_home" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
