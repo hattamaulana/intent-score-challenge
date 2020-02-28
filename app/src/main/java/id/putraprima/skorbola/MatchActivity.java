@@ -24,8 +24,8 @@ public class MatchActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_HOME_SCORER = 101;
     private static final int REQUEST_CODE_AWAY_SCORER = 102;
 
-    private List<String> homeScorers = new ArrayList<>();
-    private List<String> awayScorers = new ArrayList<>();
+    private List<Score> homeScorers = new ArrayList<>();
+    private List<Score> awayScorers = new ArrayList<>();
 
     private Match match;
     private TextView tvHomeTeam;
@@ -90,24 +90,30 @@ public class MatchActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_CANCELED) return;
 
-        String scorer;
+        Score scorer;
         StringBuilder tempScorers = new StringBuilder();
         switch (requestCode) {
             case REQUEST_CODE_HOME_SCORER:
-                scorer = data.getStringExtra(ScorerActivity.EXTRA_SCORER);
+                scorer = data.getParcelableExtra(ScorerActivity.EXTRA_SCORER);
 
                 homeScorers.add(scorer);
-                for (String s : homeScorers) tempScorers.append("\n" + s);
+                for (Score s : homeScorers) {
+                    String temp = s.getName() + " " + s.getMinute() + "\"";
+                    tempScorers.append("\n" + temp);
+                }
 
                 tvHomeTeam.setText(String.valueOf(homeScorers.size()));
                 homeScorer.setText(tempScorers);
                 break;
 
             case REQUEST_CODE_AWAY_SCORER:
-                scorer = data.getStringExtra(ScorerActivity.EXTRA_SCORER);
+                scorer = data.getParcelableExtra(ScorerActivity.EXTRA_SCORER);
 
                 awayScorers.add(scorer);
-                for (String s : awayScorers) tempScorers.append("\n" + s);
+                for (Score s : awayScorers) {
+                    String temp = s.getName() + " " + s.getMinute() + "\"";
+                    tempScorers.append("\n" + temp);
+                }
 
                 tvAwayTeam.setText(String.valueOf(awayScorers.size()));
                 awayScorer.setText(tempScorers);
